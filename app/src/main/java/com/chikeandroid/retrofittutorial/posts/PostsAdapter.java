@@ -78,6 +78,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         return mPosts.size();
     }
 
+    public void updatePosts(List<Post> posts) {
+        mPosts = posts;
+        notifyDataSetChanged();
+    }
+
     private Post getItem(int adapterPosition) {
         return mPosts.get(adapterPosition);
     }
