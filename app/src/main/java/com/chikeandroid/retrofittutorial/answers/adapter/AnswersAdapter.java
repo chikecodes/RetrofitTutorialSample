@@ -1,4 +1,4 @@
-package com.chikeandroid.retrofittutorial.posts;
+package com.chikeandroid.retrofittutorial.answers.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chikeandroid.retrofittutorial.R;
-import com.chikeandroid.retrofittutorial.data.model.Post;
+import com.chikeandroid.retrofittutorial.data.model.Item;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import java.util.List;
  * Created by Chike on 12/4/2016.
  */
 
-public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
+public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.ViewHolder> {
 
-    private List<Post> mPosts;
+    private List<Item> mItems;
     private Context mContext;
     private PostItemListener mItemListener;
 
@@ -38,13 +38,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-            Post post = getItem(getAdapterPosition());
-            this.mItemListener.onPostClick(post.getId());
+            Item item = getItem(getAdapterPosition());
+            this.mItemListener.onPostClick(item.getAnswerId());
         }
     }
 
-    public PostsAdapter(Context context, List<Post> posts, PostItemListener itemListener) {
-        mPosts = posts;
+    public AnswersAdapter(Context context, List<Item> posts, PostItemListener itemListener) {
+        mItems = posts;
         mContext = context;
         mItemListener = itemListener;
     }
@@ -54,7 +54,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     }
 
     @Override
-    public PostsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AnswersAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -66,25 +66,25 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(PostsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(AnswersAdapter.ViewHolder holder, int position) {
 
-        Post post = mPosts.get(position);
+        Item item = mItems.get(position);
         TextView textView = holder.titleTv;
-        textView.setText(post.getTitle());
+        textView.setText(item.getOwner().getDisplayName());
     }
 
     @Override
     public int getItemCount() {
-        return mPosts.size();
+        return mItems.size();
     }
 
-    public void updatePosts(List<Post> posts) {
-        mPosts = posts;
+    public void updateAnswers(List<Item> items) {
+        mItems = items;
         notifyDataSetChanged();
     }
 
-    private Post getItem(int adapterPosition) {
-        return mPosts.get(adapterPosition);
+    private Item getItem(int adapterPosition) {
+        return mItems.get(adapterPosition);
     }
 
     public interface PostItemListener {

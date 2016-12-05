@@ -1,8 +1,8 @@
-package com.chikeandroid.retrofittutorial.posts;
+package com.chikeandroid.retrofittutorial.answers;
 
 import com.chikeandroid.retrofittutorial.BasePresenter;
 import com.chikeandroid.retrofittutorial.BaseView;
-import com.chikeandroid.retrofittutorial.data.model.Post;
+import com.chikeandroid.retrofittutorial.data.model.Item;
 
 import java.util.List;
 
@@ -10,16 +10,16 @@ import java.util.List;
  * Created by Chike on 12/4/2016.
  */
 
-public interface PostsContract {
+public interface AnswersContract {
 
     interface View extends BaseView<Presenter> {
-        void showPosts(List<Post> posts);
+        void showAnswers(List<Item> answers);
 
         void showErrorMessage();
     }
 
     interface Presenter extends BasePresenter {
 
-        void loadPosts();
+        void loadAnswers();
     }
 }

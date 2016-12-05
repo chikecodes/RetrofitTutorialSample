@@ -1,4 +1,4 @@
-package com.chikeandroid.retrofittutorial.posts;
+package com.chikeandroid.retrofittutorial.answers;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +9,8 @@ import android.widget.Toast;
 
 import com.chikeandroid.retrofittutorial.DividerItemDecoration;
 import com.chikeandroid.retrofittutorial.R;
-import com.chikeandroid.retrofittutorial.data.model.Post;
+import com.chikeandroid.retrofittutorial.answers.adapter.AnswersAdapter;
+import com.chikeandroid.retrofittutorial.data.model.Item;
 import com.chikeandroid.retrofittutorial.data.remote.ApiUtils;
 
 import java.util.ArrayList;
@@ -21,10 +22,10 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
  * Created by Chike on 12/4/2016.
  */
 
-public class PostsActivity  extends AppCompatActivity implements PostsContract.View {
+public class AnswersActivity extends AppCompatActivity implements AnswersContract.View {
 
-    private PostsContract.Presenter mPresenter;
-    private PostsAdapter mAdapter;
+    private AnswersContract.Presenter mPresenter;
+    private AnswersAdapter mAdapter;
 
     private RecyclerView mRecyclerView;
 
@@ -33,14 +34,14 @@ public class PostsActivity  extends AppCompatActivity implements PostsContract.V
         super.onCreate( savedInstanceState );
         setContentView(R.layout.activity_main );
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_posts);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv_answers);
 
-        mPresenter = new PostPresenter(this, ApiUtils.getPostService());
-        mAdapter = new PostsAdapter(this, new ArrayList<Post>(0), new PostsAdapter.PostItemListener() {
+        mPresenter = new AnswersPresenter(this, ApiUtils.getSOService());
+        mAdapter = new AnswersAdapter(this, new ArrayList<Item>(0), new AnswersAdapter.PostItemListener() {
 
             @Override
             public void onPostClick(long id) {
-                Toast.makeText(PostsActivity.this, "Post id is" + id, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AnswersActivity.this, "Post id is" + id, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -63,8 +64,8 @@ public class PostsActivity  extends AppCompatActivity implements PostsContract.V
     }
 
     @Override
-    public void showPosts(List<Post> posts) {
-        mAdapter.updatePosts(posts);
+    public void showAnswers(List<Item> answers) {
+        mAdapter.updateAnswers(answers);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class PostsActivity  extends AppCompatActivity implements PostsContract.V
     }
 
     @Override
-    public void setPresenter(@NonNull PostsContract.Presenter presenter) {
+    public void setPresenter(@NonNull AnswersContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 }

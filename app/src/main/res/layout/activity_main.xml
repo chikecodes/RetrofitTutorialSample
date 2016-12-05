@@ -5,10 +5,10 @@
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.chikeandroid.retrofittutorial.posts.PostsActivity">
+        tools:context="com.chikeandroid.retrofittutorial.answers.AnswersActivity">
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_posts"
+            android:id="@+id/rv_answers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@android:layout/simple_list_item_1"/>
