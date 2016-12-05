@@ -13,5 +13,7 @@ public interface SOService {
 
     @GET("/answers?order=desc&sort=activity&site=stackoverflow")
     Call<SOAnswersResponse> getAnswers();
+    // RxJava
+    // Observable<SOAnswersResponse> getAnswers();
 
 }

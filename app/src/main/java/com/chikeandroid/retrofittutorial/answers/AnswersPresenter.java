@@ -29,6 +29,27 @@ public class AnswersPresenter implements AnswersContract.Presenter {
 
     @Override
     public void loadAnswers() {
+
+        // RxJava Implementation
+
+        /*mService.getAnswers().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SOAnswersResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(SOAnswersResponse soAnswersResponse) {
+                        mAnswersView.showAnswers(soAnswersResponse.getItems());
+                    }
+                });*/
+
         mService.getAnswers().enqueue(new Callback<SOAnswersResponse>() {
             @Override
             public void onResponse(Call<SOAnswersResponse> call, Response<SOAnswersResponse> response) {
