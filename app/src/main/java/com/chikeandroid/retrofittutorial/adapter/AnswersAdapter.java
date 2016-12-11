@@ -1,4 +1,4 @@
-package com.chikeandroid.retrofittutorial.answers.adapter;
+package com.chikeandroid.retrofittutorial.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.chikeandroid.retrofittutorial.R;
 import com.chikeandroid.retrofittutorial.data.model.Item;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.ViewHold
 
         public ViewHolder(View itemView, PostItemListener postItemListener) {
             super(itemView);
-            titleTv = (TextView) itemView.findViewById(R.id.tv_title);
+            titleTv = (TextView) itemView.findViewById(android.R.id.text1);
 
             this.mItemListener = postItemListener;
             itemView.setOnClickListener(this);
@@ -40,6 +39,9 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.ViewHold
         public void onClick(View view) {
             Item item = getItem(getAdapterPosition());
             this.mItemListener.onPostClick(item.getAnswerId());
+
+            notifyDataSetChanged();
+
         }
     }
 
@@ -49,17 +51,13 @@ public class AnswersAdapter extends RecyclerView.Adapter<AnswersAdapter.ViewHold
         mItemListener = itemListener;
     }
 
-    private Context getContext() {
-        return mContext;
-    }
-
     @Override
     public AnswersAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View postView = inflater.inflate(R.layout.post_row_item, parent, false);
+        View postView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(postView, this.mItemListener);
         return viewHolder;
