@@ -1,6 +1,7 @@
 package com.chikeandroid.retrofittutorial;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.chikeandroid.retrofittutorial.data.remote.SOService;
 
 import java.util.ArrayList;
 
+import io.reactivex.disposables.CompositeDisposable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private AnswersAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private SOService mService;
+
+    @NonNull
+    private CompositeDisposable mDisposables;
 
     @Override
     protected void onCreate (Bundle savedInstanceState)  {
@@ -52,30 +57,35 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
         mRecyclerView.addItemDecoration(itemDecoration);
 
+        // RxJava
+        mDisposables = new CompositeDisposable();
+
         loadAnswers();
     }
 
     public void loadAnswers() {
 
-        // RxJava Implementation
-
-        /*mService.getAnswers().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SOAnswersResponse>() {
+        /*RxJava Implementation
+        mDisposables.add(mService.getAnswers()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<SOAnswersResponse>() {
                     @Override
-                    public void onCompleted() {
-
+                    public void onNext(SOAnswersResponse soAnswersResponse) {
+                        mAdapter.updateAnswers(soAnswersResponse.getItems());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        // handle error
                     }
 
                     @Override
-                    public void onNext(SOAnswersResponse soAnswersResponse) {
-                        mAnswersView.showAnswers(soAnswersResponse.getItems());
+                    public void onComplete() {
+
                     }
-                });*/
+                }));*/
+        // Make sure you dispose of the subscription in onDestroy() to prevent memory leak
 
         mService.getAnswers().enqueue(new Callback<SOAnswersResponse>() {
             @Override
@@ -104,4 +114,11 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Error loading posts", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // dispose to prevent memory leak
+        mDisposables.dispose();
+    }
 }
